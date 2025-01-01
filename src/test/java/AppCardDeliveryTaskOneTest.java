@@ -1,3 +1,4 @@
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Keys;
@@ -5,13 +6,12 @@ import org.openqa.selenium.Keys;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.concurrent.locks.Condition;
 
 import static com.codeborne.selenide.Selenide.$;
 
 public class AppCardDeliveryTaskOneTest {
 
-    private  String generateDate(long addDays, String pattern) {
+    private String generateDate(long addDays, String pattern) {
         return LocalDate.now().plusDays(addDays).format(DateTimeFormatter.ofPattern(pattern));
 
     }
@@ -20,13 +20,13 @@ public class AppCardDeliveryTaskOneTest {
     public void shouldBeSuccessfullyComplete() {
         Selenide.open("http://localhost:9999");
         $("[data-test-id='city'] input").setValue("Рязань");
-        String planningDate = generateDate(4,"dd.MM.yyyy");
-        $( "[data-test-id='date'] input").sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.DELETE);
-        $( "[data-test-id='date'] input").setValue(planningDate);
-        $( "[data-test-id='name'] input").setValue("Иванов Иван");
-        $( "[data-test-id='phone'] input").setValue("+79999999999");
-        $( "[data-test-id='agreement']").click();
-        $( "button.button").click();
-        $( ".notification__content").shouldBe(Condition.visible, Duration.ofSeconds(15)).shouldHave(Condition.text("Встреча успешно забронирована на " + planningDate));
+        String planningDate = generateDate(4, "dd.MM.yyyy");
+        $("[data-test-id='date'] input").sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.DELETE);
+        $("[data-test-id='date'] input").setValue(planningDate);
+        $("[data-test-id='name'] input").setValue("Иванов Иван");
+        $("[data-test-id='phone'] input").setValue("+79999999999");
+        $("[data-test-id='agreement']").click();
+        $("button.button").click();
+        $(".notification__content").shouldBe(Condition.visible, Duration.ofSeconds(15)).shouldHave(Condition.text("Встреча успешно забронирована на " + planningDate));
     }
 }
